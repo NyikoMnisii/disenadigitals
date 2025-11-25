@@ -1,0 +1,205 @@
+{
+  "localBusiness": {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://www.disenadigitals.co.za/#organization",
+    "name": "Disena Digitals",
+    "alternateName": "Disena Digitals Web Design Agency",
+    "url": "https://www.disenadigitals.co.za/",
+    "logo": "https://www.disenadigitals.co.za/images/creative%20web%20design.png",
+    "image": "https://www.disenadigitals.co.za/images/creative%20web%20design.png",
+    "description": "Professional website design agency in Limpopo, South Africa. We offer affordable website design and development services, custom web design, and SEO for small businesses in Polokwane, Thohoyandou, Makhado, Giyani, and Tzaneen.",
+    "telephone": "+27 67 280 0675",
+    "email": "info@disenadigitals.co.za",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "ZA",
+      "addressRegion": "Limpopo",
+      "addressLocality": "Limpopo Province"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "-23.9045",
+      "longitude": "29.4689"
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Polokwane"
+      },
+      {
+        "@type": "City",
+        "name": "Thohoyandou"
+      },
+      {
+        "@type": "City",
+        "name": "Makhado"
+      },
+      {
+        "@type": "City",
+        "name": "Giyani"
+      },
+      {
+        "@type": "City",
+        "name": "Tzaneen"
+      },
+      {
+        "@type": "State",
+        "name": "Limpopo"
+      }
+    ],
+    "priceRange": "R3500-R9000",
+    "sameAs": [
+      "https://www.facebook.com/disenadigitals",
+      "https://www.instagram.com/disenadigitals",
+      "https://www.linkedin.com/company/disenadigitals"
+    ],
+    "makesOffer": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Website Design",
+          "description": "Custom website design and development services for small businesses"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Web Development",
+          "description": "Professional web development and website building services"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Graphic Design",
+          "description": "Logo design and branding services"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "SEO Services",
+          "description": "Search engine optimization to help businesses get found on Google"
+        }
+      }
+    ]
+  },
+  "website": {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://www.disenadigitals.co.za/#website",
+    "url": "https://www.disenadigitals.co.za/",
+    "name": "Disena Digitals",
+    "description": "Professional website design agency in Limpopo, South Africa",
+    "inLanguage": "en-ZA",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.disenadigitals.co.za/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  },
+  "faqPage": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are you website designers near me in Limpopo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Disena Digitals is a local web design agency serving all of Limpopo, including Polokwane, Thohoyandou, Makhado, Giyani, and Tzaneen. We're professional website designers near me, offering website design and development services to Limpopo businesses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does website design cost for small businesses?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our affordable website design packages start from R3,500 for a 1-page website. We offer website services for small business with packages ranging from R3,500 to R9,000, making professional website design accessible to every Limpopo business owner."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does website development take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "As experienced website developers, we typically deliver websites within 5-10 business days, depending on the package. Our fast website development process ensures your business gets online quickly without compromising on quality."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer SEO services with website design?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! We combine website design and marketing, including SEO services. All our website design packages include basic SEO optimization, and our Premium package includes ongoing SEO services to help your Limpopo business get found on Google."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes you the best website designers near me?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "As professional website designers and a top web development agency in Limpopo, we offer affordable pricing, fast delivery, modern custom web design, and local market expertise. We understand Limpopo businesses and create websites that convert visitors into customers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you build e-commerce websites?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! We develop e-commerce websites on platforms like Shopify. Our portfolio includes successful online stores like PrimeBundle. We offer full website development services including e-commerce solutions for Limpopo businesses."
+        }
+      }
+    ]
+  },
+  "service": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Website Design",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Disena Digitals"
+      },
+      "areaServed": {
+        "@type": "State",
+        "name": "Limpopo"
+      },
+      "description": "Professional website design and development services for small businesses in Limpopo"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Web Development",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Disena Digitals"
+      },
+      "areaServed": {
+        "@type": "State",
+        "name": "Limpopo"
+      },
+      "description": "Custom web development and website building services"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "SEO Services",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Disena Digitals"
+      },
+      "areaServed": {
+        "@type": "State",
+        "name": "Limpopo"
+      },
+      "description": "Search engine optimization services to help Limpopo businesses get found on Google"
+    }
+  ]
+}
+
