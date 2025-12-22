@@ -41,3 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+    
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  emailjs.sendForm(
+    "YOUR_SERVICE_ID",
+    "template_bluxl3i",
+    this
+  ).then(function() {
+      alert("Message sent successfully!");
+  }, function(error) {
+      alert("Failed to send message. Please try again.");
+      console.log(error);
+  });
+});
+
+
