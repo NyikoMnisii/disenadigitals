@@ -236,11 +236,18 @@ section {
    HERO
 =========================== */
 #hero {
-  background: var(--color-light);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("images/background3.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: var(--color-bg);
+  
+  
 }
 
 #hero .content-container {
   max-width: 700px;
+  
 }
 
 #hero img {
@@ -413,4 +420,26 @@ footer a {
   section {
     padding: var(--spacing-xl) 0;
   }
+}
+.badge {
+    position: absolute;
+    top: 15px; 
+    right: 15px; 
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff; 
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+
+.bg-accent {
+    background-color: var(--color-accent); /* Fallback color if variable is not defined */
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.301) !important;
 }
