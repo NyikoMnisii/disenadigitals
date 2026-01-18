@@ -255,29 +255,61 @@ section {
 }
 
 /* ===========================
-   BUTTONS
+   BUTTONS – NEUMORPHISM
 =========================== */
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
   font-weight: 500;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: var(--color-bg);
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.15),
+    -6px -6px 12px rgba(255, 255, 255, 0.05);
 }
 
+/* Accent Button */
 .btn-accent {
   background: var(--color-accent);
   color: #ffffff;
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.25),
+    -6px -6px 12px rgba(255, 255, 255, 0.15);
 }
 
-.btn-accent:hover {
-  opacity: 0.9;
+/* Hover – raised */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    8px 8px 16px rgba(0, 0, 0, 0.25),
+    -8px -8px 16px rgba(255, 255, 255, 0.08);
 }
 
+/* Active – pressed */
+.btn:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.25),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Large Button */
 .btn-lg {
   font-size: 1rem;
+  padding: 0.9rem 1.75rem;
 }
+
+/* Accessibility – focus state */
+.btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.2),
+    6px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
 
 /* ===========================
    GRID SYSTEM (LIGHTWEIGHT)
