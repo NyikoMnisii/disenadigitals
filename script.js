@@ -51,7 +51,7 @@ document.getElementById("contact-form").addEventListener("submit", function(even
     "template_bluxl3i",
     this
   ).then(function() {
-      alert("Message sent successfully!");
+      alert("Message sent successfully! We will get back to you soon.");
   }, function(error) {
       alert("Failed to send message. Please try again.");
       console.log(error);
