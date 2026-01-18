@@ -47,7 +47,7 @@ document.getElementById("contact-form").addEventListener("submit", function(even
   event.preventDefault();
 
   emailjs.sendForm(
-    "service_z6sabpu",
+    "service_bxa74dl",
     "template_bluxl3i",
     this
   ).then(function() {
