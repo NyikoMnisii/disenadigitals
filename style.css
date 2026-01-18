@@ -261,14 +261,14 @@ section {
   display: inline-block;
   padding: 0.75rem 1.5rem;
   font-weight: 500;
-  border-radius: 12px;
+  border-radius: 16px;
   border: none;
   cursor: pointer;
   transition: all 0.25s ease;
   background: var(--color-bg);
   box-shadow:
-    6px 6px 12px rgba(0, 0, 0, 0.15),
-    -6px -6px 12px rgba(255, 255, 255, 0.05);
+    -20px 20px 60px rgba(0, 0, 0, 0.393),
+    20px -20px 60px rgba(255, 255, 255, 0.05);
 }
 
 /* Accent Button */
