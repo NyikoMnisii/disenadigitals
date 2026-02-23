@@ -350,10 +350,19 @@ section {
   background: var(--color-bg);
 }
 
-.portfolio-card img {
-  border-bottom: 1px solid var(--color-border);
+.portfolio-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* keeps consistent modern ratio */
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
 }
 
+.portfolio-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* prevents stretching */
+  object-position: top; /* shows top of website */
+}
 /* ===========================
    MODALS
 =========================== */
