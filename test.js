@@ -26,8 +26,7 @@ async function decodeSecretMessage(url) {
   const maxX = Math.max(...positions.map(p => p[0]));
   const maxY = Math.max(...positions.map(p => p[1]));
 
-  // ✅ Loop y from maxY DOWN to 0 (flips the output right-side up)
-  for (let row = maxY; row >= 0; row--) {
+  for (let row = 0; row <= maxY; row++) {
     let line = '';
     for (let col = 0; col <= maxX; col++) {
       line += grid[`${col},${row}`] || ' ';
@@ -37,4 +36,4 @@ async function decodeSecretMessage(url) {
 }
 
 // Call the function with the Google Doc URL
-decodeSecretMessage("https://docs.google.com/document/d/e/2PACX-1vQiVT_Jj04V35C-YRzvoqyEYYzdXHcRyMUZCVQRYCu6gQJX7hbNhJ5eFCMuoX47cAsDW2ZBYppUQITr/pub");
+decodeSecretMessage("https://docs.google.com/document/d/e/2PACX-1vTMOmshQe8YvaRXi6gEPKKlsC6UpFJSMAk4mQjLm_u1gmHdVVTaeh7nBNFBRlui0sTZ-snGwZM4DBCT/pub");

@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BasketWise — Cheapest groceries near you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  /* ─── DESIGN TOKENS ─────────────────────────────────── */
+  :root {
+    --bg:         #0d0f0e;
+    --bg2:        #141714;
+    --bg3:        #1c1f1c;
+    --surface:    #212421;
+    --border:     #2a2e2a;
+    --border2:    #353a35;
+    --lime:       #c8f04a;
+    --lime-dim:   #9dbf33;
+    --lime-faint: #c8f04a18;
+    --white:      #f0f2ee;
+    --muted:      #8a9188;
+    --muted2:     #5c635b;
+    --red:        #f25c54;
+    --amber:      #f5a623;
+    --green:      #4caf7d;
+    --checkers:   #e31837;
+    --pnp:        #e4003a;
+    --woolies:    #1d5ea8;
+    --spar:       #007b3e;
+    --makro:      #e87722;
+
+    --font-display: 'Syne', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+    --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ─── RESET ─────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--white);
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── LAYOUT ─────────────────────────────────────────── */
+  .app { display: flex; flex-direction: column; min-height: 100dvh; }
+
+  /* ─── HEADER ─────────────────────────────────────────── */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 800; font-size: 20px;
+    letter-spacing: -0.5px;
+    color: var(--white);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--lime);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .header-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--muted);
+    transition: var(--transition);
+    position: relative;
+  }
+  .icon-btn:hover { background: var(--bg3); color: var(--white); border-color: var(--border2); }
+  .badge {
+    position: absolute; top: -4px; right: -4px;
+    width: 16px; height: 16px;
+    background: var(--lime); border-radius: 50%;
+    font-size: 9px; font-weight: 700;
+    color: var(--bg); display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+  }
+
+  /* ─── SEARCH HERO ────────────────────────────────────── */
+  .hero {
+    padding: 28px 16px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+    color: var(--lime); text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 6vw, 40px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+  .hero-title em { font-style: normal; color: var(--lime); }
+
+  .search-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    height: 52px;
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: var(--r-md);
+    padding: 0 52px 0 46px;
+    font-size: 16px;
+    font-family: var(--font-body);
+    color: var(--white);
+    outline: none;
+    transition: var(--transition);
+    -webkit-appearance: none;
+  }
+  .search-input::placeholder { color: var(--muted2); }
+  .search-input:focus {
+    border-color: var(--lime);
+    background: var(--bg3);
+    box-shadow: 0 0 0 3px var(--lime-faint);
+  }
+  .search-clear {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: var(--border); border: none; border-radius: 6px;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--muted);
+    transition: var(--transition);
+    display: none;
+  }
+  .search-clear.show { display: flex; }
+  .search-clear:hover { background: var(--border2); color: var(--white); }
+
+  /* ─── STORE FILTER PILLS ─────────────────────────────── */
+  .filter-row {
+    display: flex; gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .store-pill {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 1.5px solid var(--border2);
+    background: var(--surface);
+    font-size: 12px; font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    font-family: var(--font-body);
+  }
+  .store-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .store-pill.active { border-color: var(--lime); background: var(--lime-faint); color: var(--lime); }
+  .store-pill:hover:not(.active) { border-color: var(--border2); background: var(--bg3); color: var(--white); }
+
+  /* ─── LOCATION BAR ───────────────────────────────────── */
+  .location-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .location-bar:hover { color: var(--white); }
+  .location-text { flex: 1; }
+  .location-text strong { color: var(--white); font-weight: 500; }
+  .location-change { color: var(--lime); font-size: 12px; font-weight: 500; }
+
+  /* ─── MAIN CONTENT ───────────────────────────────────── */
+  .main { flex: 1; padding: 0 0 100px; }
+
+  /* ─── SECTION HEADER ─────────────────────────────────── */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 16px 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-action {
+    font-size: 12px; color: var(--lime); cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* ─── PRODUCT SEARCH RESULTS ─────────────────────────── */
+  .results-list { padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    transition: var(--transition);
+    animation: slideUp 0.3s ease both;
+  }
+  .product-card:hover { border-color: var(--border2); }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .product-card-header {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px;
+  }
+  .product-img {
+    width: 64px; height: 64px;
+    border-radius: var(--r-sm);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+  }
+  .product-info { flex: 1; min-width: 0; }
+  .product-name {
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 700;
+    color: var(--white);
+    margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .product-desc { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .best-price-row { display: flex; align-items: center; gap: 6px; }
+  .best-price {
+    font-family: var(--font-display);
+    font-size: 22px; font-weight: 800;
+    color: var(--lime);
+    letter-spacing: -0.5px;
+  }
+  .best-store-tag {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 100px;
+    background: var(--lime-faint);
+    color: var(--lime);
+    border: 1px solid var(--lime);
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .add-btn {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--lime);
+    border: none;
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--bg);
+    font-size: 20px; font-weight: 300;
+    transition: var(--transition);
+    align-self: center;
+  }
+  .add-btn:hover { background: #d9f55e; transform: scale(1.05); }
+  .add-btn:active { transform: scale(0.96); }
+  .add-btn.added { background: var(--bg3); border: 1.5px solid var(--lime); color: var(--lime); }
+
+  /* Price comparison grid inside card */
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+  }
+  .price-cell {
+    background: var(--bg2);
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 3px;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+  }
+  .price-cell:hover { background: var(--bg3); }
+  .price-cell.cheapest { background: #c8f04a0d; }
+  .price-cell.cheapest::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--lime);
+  }
+  .price-cell.unavailable { opacity: 0.35; }
+  .store-name-sm {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .store-name-sm.checkers { color: var(--checkers); }
+  .store-name-sm.pnp      { color: var(--pnp); }
+  .store-name-sm.woolies  { color: #5ba3e8; }
+  .store-name-sm.spar     { color: var(--spar); }
+  .store-name-sm.makro    { color: var(--makro); }
+  .cell-price {
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 700;
+    color: var(--white);
+  }
+  .price-cell.cheapest .cell-price { color: var(--lime); }
+  .cell-diff {
+    font-size: 10px;
+    color: var(--red);
+  }
+  .price-cell.cheapest .cell-diff { color: var(--green); }
+  .updated-tag { font-size: 9px; color: var(--muted2); }
+
+  /* ─── AI BASKET PANEL ────────────────────────────────── */
+  .basket-fab {
+    position: fixed; bottom: 24px; right: 16px; left: 16px;
+    background: var(--lime);
+    border-radius: var(--r-xl);
+    padding: 0 20px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer;
+    z-index: 200;
+    box-shadow: 0 8px 32px rgba(200,240,74,0.25);
+    transition: var(--transition);
+    border: none;
+  }
+  .basket-fab:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(200,240,74,0.35); }
+  .basket-fab:active { transform: translateY(0); }
+  .fab-left { display: flex; align-items: center; gap: 10px; }
+  .fab-icon { font-size: 20px; }
+  .fab-text {
+    font-family: var(--font-display);
+    font-size: 14px; font-weight: 700;
+    color: var(--bg);
+    letter-spacing: -0.3px;
+  }
+  .fab-sub { font-size: 11px; font-weight: 400; opacity: 0.7; display: block; }
+  .fab-count {
+    font-family: var(--font-display);
+    font-size: 22px; font-weight: 800;
+    color: var(--bg);
+    letter-spacing: -1px;
+  }
+  .fab-count span { font-size: 13px; font-weight: 500; }
+
+  /* ─── BASKET SHEET ───────────────────────────────────── */
+  .sheet-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 300;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+  .sheet-overlay.open { opacity: 1; pointer-events: all; }
+  .sheet {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--bg2);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    border-top: 1px solid var(--border);
+    z-index: 400;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+    max-height: 88dvh;
+    display: flex; flex-direction: column;
+  }
+  .sheet.open { transform: translateY(0); }
+  .sheet-handle {
+    width: 36px; height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    margin: 12px auto 0;
+    flex-shrink: 0;
+  }
+  .sheet-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .sheet-title {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .sheet-close {
+    width: 32px; height: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--muted);
+    transition: var(--transition);
+    font-size: 16px;
+  }
+  .sheet-close:hover { color: var(--white); background: var(--bg3); }
+  .sheet-body { overflow-y: auto; padding: 16px 20px; flex: 1; }
+
+  /* AI Recommendation Box */
+  .ai-rec {
+    background: linear-gradient(135deg, #c8f04a12 0%, #c8f04a05 100%);
+    border: 1.5px solid var(--lime);
+    border-radius: var(--r-lg);
+    padding: 16px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-rec::before {
+    content: 'AI';
+    position: absolute; top: 10px; right: 14px;
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 800;
+    color: var(--lime); letter-spacing: 2px;
+    opacity: 0.4;
+  }
+  .ai-rec-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--lime);
+    margin-bottom: 6px;
+    font-family: var(--font-display);
+  }
+  .ai-rec-title {
+    font-family: var(--font-display);
+    font-size: 17px; font-weight: 800;
+    color: var(--white);
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .ai-rec-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+  .ai-savings {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .savings-pill {
+    background: var(--lime);
+    color: var(--bg);
+    font-family: var(--font-display);
+    font-size: 14px; font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: -0.3px;
+  }
+  .savings-note { font-size: 12px; color: var(--muted); }
+
+  /* Basket items */
+  .basket-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .basket-item:last-child { border-bottom: none; }
+  .basket-item-emoji { font-size: 28px; flex-shrink: 0; }
+  .basket-item-info { flex: 1; min-width: 0; }
+  .basket-item-name { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+  .basket-item-store { font-size: 11px; color: var(--muted); }
+  .basket-item-price {
+    font-family: var(--font-display);
+    font-size: 16px; font-weight: 700;
+    color: var(--white);
+  }
+  .basket-remove {
+    background: none; border: none; color: var(--muted2);
+    cursor: pointer; font-size: 16px; padding: 4px;
+    transition: var(--transition); line-height: 1;
+  }
+  .basket-remove:hover { color: var(--red); }
+
+  .basket-total-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0 4px;
+    margin-top: 4px;
+    border-top: 1px solid var(--border2);
+  }
+  .basket-total-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .basket-total-price {
+    font-family: var(--font-display);
+    font-size: 26px; font-weight: 800;
+    color: var(--lime); letter-spacing: -1px;
+  }
+
+  .optimize-btn {
+    width: 100%;
+    height: 52px;
+    background: var(--lime);
+    border: none;
+    border-radius: var(--r-md);
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 700;
+    color: var(--bg); letter-spacing: -0.3px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: var(--transition);
+  }
+  .optimize-btn:hover { background: #d9f55e; }
+
+  /* ─── TRENDING SECTION ───────────────────────────────── */
+  .trending-scroll {
+    display: flex; gap: 10px;
+    overflow-x: auto; padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .trending-scroll::-webkit-scrollbar { display: none; }
+  .trending-card {
+    flex-shrink: 0;
+    width: 140px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .trending-card:hover { border-color: var(--border2); background: var(--bg3); }
+  .trending-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+  .trending-name { font-size: 12px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .trending-price {
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 700; color: var(--lime);
+  }
+  .trending-change { font-size: 10px; color: var(--green); }
+  .trending-change.up { color: var(--red); }
+
+  /* ─── DESKTOP LAYOUT ─────────────────────────────────── */
+  @media (min-width: 768px) {
+    .header { padding: 0 32px; height: 64px; }
+    .hero { padding: 40px 32px 28px; }
+    .hero-title { font-size: 48px; }
+    .search-wrap { max-width: 640px; }
+    .filter-row { flex-wrap: wrap; }
+    .location-bar { padding: 12px 32px; }
+    .main { padding-bottom: 40px; }
+    .section-header { padding: 28px 32px 14px; }
+    .results-list { padding: 0 32px; }
+    .trending-scroll { padding: 0 32px; }
+
+    .price-grid { grid-template-columns: repeat(5, 1fr); }
+    .basket-fab { max-width: 400px; left: auto; right: 32px; border-radius: 100px; }
+    .sheet { max-width: 480px; left: auto; right: 0; border-radius: var(--r-xl) 0 0 var(--r-xl); max-height: 100dvh; }
+  }
+
+  @media (min-width: 1200px) {
+    .desktop-layout {
+      max-width: 1280px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 0;
+      padding: 0 32px;
+      align-items: start;
+    }
+    .results-list { padding: 0; }
+    .section-header { padding: 28px 0 14px; }
+    .trending-scroll { padding: 0; }
+    .sticky-sidebar {
+      position: sticky; top: 80px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      margin-top: 24px;
+    }
+    .basket-fab { display: none; }
+    .sheet {
+      position: static;
+      max-width: none; max-height: none;
+      transform: none;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+    }
+    .sheet-handle { display: none; }
+    .sheet-header { border-top-left-radius: var(--r-xl); }
+    .sheet-body { max-height: none; overflow: visible; }
+    .sheet-overlay { display: none; }
+  }
+
+  /* ─── EMPTY STATE ────────────────────────────────────── */
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 60px 32px; text-align: center;
+  }
+  .empty-icon { font-size: 56px; margin-bottom: 16px; }
+  .empty-title {
+    font-family: var(--font-display);
+    font-size: 20px; font-weight: 700;
+    color: var(--white); margin-bottom: 8px;
+  }
+  .empty-sub { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 280px; }
+
+  /* ─── STORE STATUS ROW ───────────────────────────────── */
+  .store-status-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 16px;
+    overflow-x: auto; scrollbar-width: none;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .store-status-bar::-webkit-scrollbar { display: none; }
+  .store-live {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 600;
+    color: var(--muted); letter-spacing: 0.3px;
+    white-space: nowrap;
+    padding: 3px 8px;
+    background: var(--surface);
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .live-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ─── TABS ───────────────────────────────────────────── */
+  .tabs {
+    display: flex; gap: 0;
+    padding: 16px 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    padding: 8px 16px 12px;
+    font-size: 13px; font-weight: 600;
+    color: var(--muted); cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: var(--transition);
+    font-family: var(--font-display);
+    white-space: nowrap;
+  }
+  .tab.active { color: var(--lime); border-bottom-color: var(--lime); }
+  .tab:hover:not(.active) { color: var(--white); }
+
+  /* ─── PRICE ALERT BANNER ─────────────────────────────── */
+  .alert-banner {
+    margin: 0 16px 12px;
+    background: rgba(245,166,35,0.1);
+    border: 1px solid var(--amber);
+    border-radius: var(--r-md);
+    padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--amber);
+    animation: slideUp 0.4s ease both;
+  }
+  .alert-banner strong { font-weight: 600; }
+
+  /* ─── LOADING SKELETON ───────────────────────────────── */
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--bg3) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--r-sm);
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ─── SCROLL TO TOP ──────────────────────────────────── */
+  .scroll-top {
+    position: fixed; bottom: 96px; right: 16px;
+    width: 40px; height: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--muted);
+    transition: var(--transition);
+    z-index: 150;
+    opacity: 0; pointer-events: none;
+  }
+  .scroll-top.show { opacity: 1; pointer-events: all; }
+  .scroll-top:hover { color: var(--white); border-color: var(--lime); }
+
+  @media (min-width: 1200px) {
+    .scroll-top { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      BasketWise
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleLocation()" title="Location">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.72 12.06a.5.5 0 0 0 .56 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg>
+      </button>
+      <button class="icon-btn" title="Alerts">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge">2</span>
+      </button>
+      <button class="icon-btn" title="Profile">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── SEARCH HERO ── -->
+  <section class="hero">
+    <div class="hero-label">5 stores · Johannesburg</div>
+    <h1 class="hero-title">Find the<br><em>cheapest price</em><br>near you</h1>
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </span>
+      <input
+        class="search-input"
+        type="text"
+        id="searchInput"
+        placeholder="Search milk, bread, eggs…"
+        autocomplete="off"
+        oninput="handleSearch(this.value)"
+      >
+      <button class="search-clear" id="clearBtn" onclick="clearSearch()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="filter-row" id="storeFilter">
+      <button class="store-pill active" data-store="all" onclick="filterStore(this,'all')">
+        <span class="dot" style="background:var(--lime)"></span> All stores
+      </button>
+      <button class="store-pill" data-store="checkers" onclick="filterStore(this,'checkers')">
+        <span class="dot" style="background:var(--checkers)"></span> Checkers
+      </button>
+      <button class="store-pill" data-store="pnp" onclick="filterStore(this,'pnp')">
+        <span class="dot" style="background:var(--pnp)"></span> Pick n Pay
+      </button>
+      <button class="store-pill" data-store="woolies" onclick="filterStore(this,'woolies')">
+        <span class="dot" style="background:var(--woolies)"></span> Woolworths
+      </button>
+      <button class="store-pill" data-store="spar" onclick="filterStore(this,'spar')">
+        <span class="dot" style="background:var(--spar)"></span> Spar
+      </button>
+      <button class="store-pill" data-store="makro" onclick="filterStore(this,'makro')">
+        <span class="dot" style="background:var(--makro)"></span> Makro
+      </button>
+    </div>
+  </section>
+
+  <!-- ── STORE STATUS ── -->
+  <div class="store-status-bar">
+    <div class="store-live"><span class="live-dot"></span> Checkers live</div>
+    <div class="store-live"><span class="live-dot"></span> Pick n Pay live</div>
+    <div class="store-live"><span class="live-dot"></span> Woolworths live</div>
+    <div class="store-live" style="--green:#f5a623"><span class="live-dot" style="background:var(--amber)"></span> Spar 2h ago</div>
+    <div class="store-live"><span class="live-dot"></span> Makro live</div>
+  </div>
+
+  <!-- ── LOCATION BAR ── -->
+  <div class="location-bar" onclick="toggleLocation()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.72 12.06a.5.5 0 0 0 .56 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg>
+    <span class="location-text">Showing prices near <strong id="locationName">Sandton, Johannesburg</strong></span>
+    <span class="location-change">Change →</span>
+  </div>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+    <div class="desktop-layout">
+      <div class="content-col">
+
+        <!-- TABS -->
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab(this,'search')">Search results</div>
+          <div class="tab" onclick="switchTab(this,'trending')">Trending deals</div>
+          <div class="tab" onclick="switchTab(this,'history')">Price history</div>
+        </div>
+
+        <!-- ALERT BANNER -->
+        <div style="padding-top:14px">
+          <div class="alert-banner" id="alertBanner">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            <div><strong>Bread prices up 8%</strong> at Checkers this week. Pick n Pay is 14% cheaper right now.</div>
+          </div>
+        </div>
+
+        <!-- SECTION HEADER -->
+        <div class="section-header">
+          <span class="section-title" id="resultsLabel">Showing 6 results</span>
+          <span class="section-action">Sort: Best price ↓</span>
+        </div>
+
+        <!-- RESULTS LIST -->
+        <div class="results-list" id="resultsList"></div>
+
+        <!-- TRENDING -->
+        <div id="trendingSection" style="display:none">
+          <div class="section-header">
+            <span class="section-title">Trending this week</span>
+          </div>
+          <div class="trending-scroll" id="trendingScroll"></div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div class="empty-state" id="emptyState" style="display:none">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">No results found</div>
+          <div class="empty-sub">Try searching for "milk", "bread", "eggs" or "butter"</div>
+        </div>
+
+      </div>
+
+      <!-- ── DESKTOP SIDEBAR (basket) ── -->
+      <div class="sticky-sidebar" id="desktopSidebar">
+        <div id="sidebarContent"></div>
+      </div>
+    </div>
+  </main>
+
+</div><!-- end .app -->
+
+<!-- ── BASKET FAB ── -->
+<button class="basket-fab" id="basketFab" onclick="openSheet()">
+  <div class="fab-left">
+    <span class="fab-icon">🛒</span>
+    <div>
+      <span class="fab-text">My basket</span>
+      <span class="fab-sub">Tap to optimise</span>
+    </div>
+  </div>
+  <div class="fab-count"><span id="fabCount">0</span> <span>items</span></div>
+</button>
+
+<!-- ── BASKET SHEET ── -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+<div class="sheet" id="basketSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <span class="sheet-title">Your basket</span>
+    <button class="sheet-close" onclick="closeSheet()">✕</button>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+</div>
+
+<!-- ── SCROLL TO TOP ── -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<script>
+/* ── DATA ── */
+const PRODUCTS = [
+  {
+    id:1, emoji:'🥛', name:'Full Cream Milk 2L', desc:'Clover / Dairybelle / Woolworths Own',
+    prices:{ checkers:3199, pnp:3349, woolies:3699, spar:3249, makro:2999 }
+  },
+  {
+    id:2, emoji:'🍞', name:'White Bread 700g', desc:'Albany / Sasko / Blue Ribbon',
+    prices:{ checkers:2299, pnp:1999, woolies:2799, spar:2149, makro:1899 }
+  },
+  {
+    id:3, emoji:'🥚', name:'Free Range Eggs 6pk', desc:'Country Fair / Nulaid / Woolworths',
+    prices:{ checkers:3499, pnp:3299, woolies:4599, spar:3399, makro:null }
+  },
+  {
+    id:4, emoji:'🧈', name:'Butter Salted 500g', desc:'Clover / Kerrygold / Woolworths',
+    prices:{ checkers:7999, pnp:8249, woolies:9499, spar:8099, makro:7499 }
+  },
+  {
+    id:5, emoji:'🫒', name:'Sunflower Oil 2L', desc:'Sunfoil / Canola / Tastic',
+    prices:{ checkers:4999, pnp:5149, woolies:null, spar:5299, makro:4599 }
+  },
+  {
+    id:6, emoji:'🍅', name:'Tomato Paste 410g', desc:'All Gold / Heinz / Rhodes',
+    prices:{ checkers:1799, pnp:1849, woolies:2199, spar:1749, makro:1649 }
+  },
+  {
+    id:7, emoji:'🍗', name:'Chicken Breast 1kg', desc:'Farmers Choice / Woolworths / Spar',
+    prices:{ checkers:8999, pnp:9499, woolies:12999, spar:9299, makro:8499 }
+  },
+  {
+    id:8, emoji:'🧀', name:'Cheddar Cheese 400g', desc:'Lancewood / Clover / Woolworths',
+    prices:{ checkers:6999, pnp:7249, woolies:8499, spar:7099, makro:null }
+  },
+  {
+    id:9, emoji:'🍚', name:'Basmati Rice 2kg', desc:'Tastic / Ladismith / Elephant',
+    prices:{ checkers:5499, pnp:5799, woolies:6499, spar:5649, makro:4999 }
+  },
+  {
+    id:10, emoji:'🧴', name:'Dishwashing Liquid 750ml', desc:'Sunlight / Morning Fresh / Dawn',
+    prices:{ checkers:2499, pnp:2649, woolies:3299, spar:2549, makro:2249 }
+  },
+];
+
+const STORES = ['checkers','pnp','woolies','spar','makro'];
+const STORE_LABELS = { checkers:'Checkers', pnp:'Pick n Pay', woolies:'Woolworths', spar:'Spar', makro:'Makro' };
+
+let basket = [];
+let activeStore = 'all';
+let query = '';
+
+/* ── UTILS ── */
+const R = c => `R${(c/100).toFixed(2)}`;
+const cheapest = p => {
+  const vals = STORES.map(s => p.prices[s]).filter(Boolean);
+  return Math.min(...vals);
+};
+const cheapestStore = p => {
+  const min = cheapest(p);
+  return STORES.find(s => p.prices[s] === min);
+};
+const diff = (price, min) => price === min ? null : `+${R(price-min)}`;
+
+/* ── RENDER PRODUCT CARD ── */
+function renderCard(p, delay=0) {
+  const min = cheapest(p);
+  const best = cheapestStore(p);
+  const inBasket = basket.find(b => b.id === p.id);
+
+  const priceCells = STORES.map(s => {
+    if(!p.prices[s]) return `<div class="price-cell unavailable"><span class="store-name-sm ${s}">${STORE_LABELS[s]}</span><span class="cell-price">—</span></div>`;
+    const isBest = p.prices[s] === min;
+    const d = diff(p.prices[s], min);
+    return `<div class="price-cell${isBest?' cheapest':''}" onclick="addToBasket(${p.id},'${s}')">
+      <span class="store-name-sm ${s}">${STORE_LABELS[s]}</span>
+      <span class="cell-price">${R(p.prices[s])}</span>
+      ${d ? `<span class="cell-diff">${d}</span>` : `<span class="cell-diff" style="color:var(--green)">Cheapest</span>`}
+    </div>`;
+  }).join('');
+
+  return `<div class="product-card" style="animation-delay:${delay}ms">
+    <div class="product-card-header">
+      <div class="product-img">${p.emoji}</div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="best-price-row">
+          <span class="best-price">${R(min)}</span>
+          <span class="best-store-tag">${STORE_LABELS[best]}</span>
+        </div>
+      </div>
+      <button class="add-btn${inBasket?' added':''}" id="addBtn${p.id}" onclick="addToBasket(${p.id},'${best}')">
+        ${inBasket ? '✓' : '+'}
+      </button>
+    </div>
+    <div class="price-grid">${priceCells}</div>
+  </div>`;
+}
+
+/* ── RENDER RESULTS ── */
+function renderResults() {
+  const list = document.getElementById('resultsList');
+  const empty = document.getElementById('emptyState');
+  const label = document.getElementById('resultsLabel');
+
+  let filtered = PRODUCTS.filter(p => {
+    const q = query.toLowerCase();
+    return !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+  });
+
+  if(activeStore !== 'all') {
+    filtered = filtered.filter(p => p.prices[activeStore]);
+  }
+
+  filtered.sort((a,b) => cheapest(a) - cheapest(b));
+
+  if(!filtered.length) {
+    list.innerHTML = '';
+    empty.style.display = 'flex';
+    label.textContent = '0 results';
+  } else {
+    empty.style.display = 'none';
+    label.textContent = `Showing ${filtered.length} result${filtered.length!==1?'s':''}`;
+    list.innerHTML = filtered.map((p,i) => renderCard(p, i*60)).join('');
+  }
+}
+
+/* ── BASKET ── */
+function addToBasket(id, store) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const existing = basket.findIndex(b => b.id === id);
+  if(existing >= 0) {
+    basket.splice(existing, 1);
+  } else {
+    basket.push({ id, name: p.name, emoji: p.emoji, store, price: p.prices[store] });
+  }
+  updateFab();
+  renderResults();
+  renderBasket();
+}
+
+function removeFromBasket(id) {
+  basket = basket.filter(b => b.id !== id);
+  updateFab();
+  renderResults();
+  renderBasket();
+}
+
+function updateFab() {
+  document.getElementById('fabCount').textContent = basket.length;
+}
+
+function renderBasket() {
+  const content = buildBasketHTML();
+  document.getElementById('sheetBody').innerHTML = content;
+  const sidebar = document.getElementById('sidebarContent');
+  if(sidebar) sidebar.innerHTML = content;
+}
+
+function buildBasketHTML() {
+  if(!basket.length) {
+    return `<div style="text-align:center;padding:40px 0">
+      <div style="font-size:48px;margin-bottom:12px">🛒</div>
+      <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px">Basket is empty</div>
+      <div style="font-size:13px;color:var(--muted)">Search for products and tap + to add them</div>
+    </div>`;
+  }
+
+  const total = basket.reduce((s,b) => s+b.price, 0);
+
+  // AI optimization: find cheapest single store for whole basket
+  const storeTotals = {};
+  STORES.forEach(s => {
+    const canFulfil = basket.every(b => {
+      const p = PRODUCTS.find(x => x.id === b.id);
+      return p.prices[s];
+    });
+    if(canFulfil) {
+      storeTotals[s] = basket.reduce((sum,b) => {
+        const p = PRODUCTS.find(x => x.id === b.id);
+        return sum + (p.prices[s] || 0);
+      }, 0);
+    }
+  });
+
+  const bestStore = Object.entries(storeTotals).sort((a,b)=>a[1]-b[1])[0];
+  const savings = bestStore ? total - bestStore[1] : 0;
+
+  const aiBox = bestStore && savings > 0 ? `
+    <div class="ai-rec">
+      <div class="ai-rec-label">AI recommendation</div>
+      <div class="ai-rec-title">Buy everything at ${STORE_LABELS[bestStore[0]]}</div>
+      <div class="ai-rec-sub">All ${basket.length} items available. One trip, lowest total bill.</div>
+      <div class="ai-savings">
+        <span class="savings-pill">Save ${R(savings)}</span>
+        <span class="savings-note">vs your current selection</span>
+      </div>
+    </div>` : '';
+
+  const items = basket.map(b => `
+    <div class="basket-item">
+      <span class="basket-item-emoji">${b.emoji}</span>
+      <div class="basket-item-info">
+        <div class="basket-item-name">${b.name}</div>
+        <div class="basket-item-store">${STORE_LABELS[b.store]}</div>
+      </div>
+      <span class="basket-item-price">${R(b.price)}</span>
+      <button class="basket-remove" onclick="removeFromBasket(${b.id})">✕</button>
+    </div>`).join('');
+
+  return `${aiBox}
+    ${items}
+    <div class="basket-total-row">
+      <span class="basket-total-label">Total</span>
+      <span class="basket-total-price">${R(total)}</span>
+    </div>
+    <button class="optimize-btn" onclick="alert('🚀 AI basket optimization — coming soon! This will calculate the best store split for your full basket.')">
+      Optimise my basket →
+    </button>
+    <div style="height:16px"></div>`;
+}
+
+/* ── SHEET ── */
+function openSheet() {
+  document.getElementById('sheetOverlay').classList.add('open');
+  document.getElementById('basketSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderBasket();
+}
+function closeSheet() {
+  document.getElementById('sheetOverlay').classList.remove('open');
+  document.getElementById('basketSheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── SEARCH ── */
+function handleSearch(val) {
+  query = val;
+  document.getElementById('clearBtn').classList.toggle('show', val.length > 0);
+  renderResults();
+}
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  query = '';
+  document.getElementById('clearBtn').classList.remove('show');
+  renderResults();
+}
+
+/* ── FILTER ── */
+function filterStore(btn, store) {
+  document.querySelectorAll('.store-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  activeStore = store;
+  renderResults();
+}
+
+/* ── TABS ── */
+function switchTab(tab, name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById('alertBanner').style.display = name==='search' ? 'flex' : 'none';
+  document.getElementById('resultsList').style.display = name==='search' ? 'flex' : 'none';
+  document.getElementById('trendingSection').style.display = name==='trending' ? 'block' : 'none';
+  if(name==='trending') renderTrending();
+}
+
+/* ── TRENDING ── */
+function renderTrending() {
+  const trending = [
+    {emoji:'🥛',name:'Milk 2L',price:2999,change:-5,up:false},
+    {emoji:'🍞',name:'Bread 700g',price:1899,change:8,up:true},
+    {emoji:'🥚',name:'Eggs 6pk',price:3299,change:-2,up:false},
+    {emoji:'🍗',name:'Chicken 1kg',price:8499,change:3,up:true},
+    {emoji:'🧴',name:'Dish Liquid',price:2249,change:-12,up:false},
+    {emoji:'🍚',name:'Rice 2kg',price:4999,change:0,up:false},
+  ];
+  document.getElementById('trendingScroll').innerHTML = trending.map(t => `
+    <div class="trending-card">
+      <span class="trending-emoji">${t.emoji}</span>
+      <div class="trending-name">${t.name}</div>
+      <div class="trending-price">${R(t.price)}</div>
+      <div class="trending-change ${t.up?'up':''}">${t.up?'▲':'▼'} ${Math.abs(t.change)}% this week</div>
+    </div>`).join('');
+}
+
+/* ── LOCATION ── */
+const locations = ['Sandton, Johannesburg','Rosebank, Johannesburg','Menlyn, Pretoria','Century City, Cape Town','Umhlanga, Durban'];
+let locIdx = 0;
+function toggleLocation() {
+  locIdx = (locIdx+1) % locations.length;
+  document.getElementById('locationName').textContent = locations[locIdx];
+  document.querySelector('.hero-label').textContent = `5 stores · ${locations[locIdx].split(',')[0]}`;
+}
+
+/* ── SCROLL TO TOP ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300);
+});
+
+/* ── INIT ── */
+renderResults();
+renderBasket();
+
+/* ── DESKTOP SIDEBAR INIT ── */
+window.addEventListener('resize', () => {
+  if(window.innerWidth >= 1200) renderBasket();
+});
+</script>
+</body>
+</html>

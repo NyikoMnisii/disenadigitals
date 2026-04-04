@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "node-html-parser": "^7.1.0"
+  },
+  "name": "disena-digitals",
+  "version": "1.0.0",
+  "description": "This document outlines the complete mobile-first redesign of the Disena Digitals one-page website. The redesign addresses mobile usability issues including overwhelming content, poor spacing, dense text blocks, and inconsistent margins. It also includes a fully functional mobile navigation system with toggle and auto-close functionality.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NyikoMnisii/disenadigitals.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/NyikoMnisii/disenadigitals/issues"
+  },
+  "homepage": "https://github.com/NyikoMnisii/disenadigitals#readme"
+}
