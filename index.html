@@ -151,13 +151,78 @@
     .drawer .dwa:hover { background:#1fb855; }
 
     /* HERO — top padding accounts for fixed white navbar (62px mobile, 70px desktop) */
-    #hero { background:var(--navy); min-height:100svh; display:flex; align-items:center; position:relative; overflow:hidden; padding:80px 0 56px; }
+    #hero {
+  background: radial-gradient(circle at 20% 30%, rgba(12,130,129,0.15), transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(12,130,129,0.1), transparent 50%),
+              var(--navy);
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0 70px;
+}
     @media(min-width:768px){ #hero{ padding:96px 0 72px; } }
-    .hgrid { position:absolute; inset:0; background-image:linear-gradient(rgba(12,130,129,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(12,130,129,.07) 1px,transparent 1px); background-size:50px 50px; mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%); }
-    .hglow  { position:absolute; width:480px; height:480px; border-radius:50%; background:radial-gradient(circle,rgba(12,130,129,.22) 0%,transparent 70%); top:-80px; right:-100px; pointer-events:none; }
-    .hglow2 { position:absolute; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle,rgba(12,130,129,.1) 0%,transparent 70%); bottom:-50px; left:-60px; pointer-events:none; }
-    .hbody { position:relative; z-index:2; display:grid; gap:44px; align-items:center; }
-    @media(min-width:960px){ .hbody{ grid-template-columns:1fr 380px; gap:60px; } }
+    .hgrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+}
+   .hglow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(12,130,129,0.25), transparent 70%);
+  top: 10%;
+  right: 10%;
+  filter: blur(40px);
+}
+
+.hglow2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(12,130,129,0.15), transparent 70%);
+  bottom: 10%;
+  left: 10%;
+  filter: blur(50px);
+}
+.hbody {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 50px;
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .hbody {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+  }
+}
+#hero::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #0c8281, transparent);
+  opacity: 0.6;
+}
+.hero-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 24px;
+}
 
     .livebadge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.13); border-radius:99px; padding:6px 13px 6px 7px; margin-bottom:18px; }
     .ldot { width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 7px var(--teal); animation:ld 2s ease-in-out infinite; }
